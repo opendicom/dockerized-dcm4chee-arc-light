@@ -1,0 +1,7 @@
+*.iml
+testing-environment-compose/dbdata
+testing-environment-compose/ldap
+testing-environment-compose/slapd.d
+testing-environment-compose/storage
+testing-environment-compose/wildfly
+
