@@ -1,4 +1,5 @@
 *.iml
+.vagrant/
 testing-environment-compose/dbdata
 testing-environment-compose/ldap
 testing-environment-compose/slapd.d

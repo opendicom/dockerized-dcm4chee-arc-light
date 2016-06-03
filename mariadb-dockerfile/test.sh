@@ -7,6 +7,7 @@ image_name='mariadb-for-dcm4chee-arc'
 image_tag='5.2.1'
 image_id=`docker images -q mariadb-for-dcm4chee-arc`
 testing_container_name='testing_mariadb_'`date +%Y%m%d_%H%M%S`
+mariadb_data_dir=~/'dbdata'
 
 # purgue existing image
 if [ -n "$image_id" ]; then
@@ -20,6 +21,11 @@ fi
 echo '- Building new image...'
 docker build -t $image_name:$image_tag .
 
+# create data directory
+echo '- Removing/Creating data directory...'
+sudo rm -rf $mariadb_data_dir
+mkdir $mariadb_data_dir
+
 # start container
 echo "- Starting (detached) container..."
 docker run \
@@ -27,6 +33,7 @@ docker run \
   -e MYSQL_DATABASE='awesome' \
   --name $testing_container_name \
   --detach \
+  --volume $mariadb_data_dir:/var/lib/mysql \
   $image_name:$image_tag
 
 # inspect container
@@ -36,3 +43,7 @@ docker exec -ti $testing_container_name /bin/bash
 # stop and delete container
 echo "- Deleting container..."
 docker rm -f $testing_container_name
+
+# remove data directory
+echo '- Removing data directory...'
+sudo rm -rf $mariadb_data_dir

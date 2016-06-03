@@ -42,6 +42,7 @@ dcm4chee-arc:
     DB_ENV_MARIADB_DB: pacsdb
     DB_ENV_MARIADB_USER: pacsuser
     DB_ENV_MARIADB_PASSWORD: pacspass
+    JAVA_OPTS: -server -Xms64m -Xmx1024m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true
   links:
     - slapd:ldap
     - mariadb:db
