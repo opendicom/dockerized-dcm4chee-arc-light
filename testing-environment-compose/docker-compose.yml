@@ -1,5 +1,5 @@
 slapd:
-  image: dcm4che/slapd-dcm4chee:5.2.0
+  image: dcm4che/slapd-dcm4chee:5.3.1
   ports:
     - "389:389"
   environment:
@@ -20,7 +20,7 @@ slapd:
     - ./slapd.d:/etc/ldap/slapd.d
 
 mariadb:
-  image: mariadb-for-dcm4chee-arc:5.3.1
+  image: opendicom/mariadb:5.3.1
   ports:
     - "3306:3306"
   environment:
@@ -32,7 +32,7 @@ mariadb:
     - ./dbdata:/var/lib/mysql
 
 dcm4chee-arc:
-  build: ../dcm4chee-dockerfile
+  image: opendicom/dcm4chee-arc-light:5.3.1
   ports:
     - "8080:8080"
     - "9990:9990"
