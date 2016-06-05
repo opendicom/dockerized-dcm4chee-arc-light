@@ -170,14 +170,14 @@
                     </security>
                 </datasource>
                 <datasource jndi-name="java:/PacsDS" pool-name="pacsds" statistics-enabled="true">
-                    <connection-url>jdbc:mysql://db:3306/${env.DB_ENV_MARIADB_DB}</connection-url>
+                    <connection-url>jdbc:mysql://db:3306/${env.MYSQL_DATABASE}</connection-url>
                     <driver>mysql</driver>
                     <pool>
                         <max-pool-size>50</max-pool-size>
                     </pool>
                     <security>
-                        <user-name>${env.DB_ENV_MARIADB_USER}</user-name>
-                        <password>${env.DB_ENV_MARIADB_PASSWORD}</password>
+                        <user-name>${env.MYSQL_USER}</user-name>
+                        <password>${env.MYSQL_PASSWORD}</password>
                     </security>
                 </datasource>
                 <drivers>
