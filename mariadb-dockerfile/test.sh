@@ -4,7 +4,7 @@
 # remove existing image, build new image, start, inspect and remove container
 
 image_name='mariadb-for-dcm4chee-arc'
-image_tag='5.2.1'
+image_tag='5.3.1'
 image_id=`docker images -q mariadb-for-dcm4chee-arc`
 testing_container_name='testing_mariadb_'`date +%Y%m%d_%H%M%S`
 mariadb_data_dir=~/'dbdata'

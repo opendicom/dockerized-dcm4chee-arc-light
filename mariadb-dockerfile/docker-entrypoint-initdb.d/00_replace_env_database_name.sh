@@ -5,4 +5,8 @@
 # The script is executed from the "docker-entrypoint.sh" script, and because
 # it starts with "00" it goes before the *.sql files defining the schema.
 
-sed -i "s/ENV_PLACEHOLDER.MYSQL_DATABASE/$MYSQL_DATABASE/g" /docker-entrypoint-initdb.d/*.sql
+for file in /docker-entrypoint-initdb.d/*.sql; do
+    content=`cat $file`
+    echo "use $MYSQL_DATABASE;" > $file
+    echo $content >> $file
+done
