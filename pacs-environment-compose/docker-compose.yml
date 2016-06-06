@@ -36,7 +36,7 @@ services:
 
     dcm4chee-arc:
         build: ../dcm4chee-dockerfile
-        image: opendicom/dcm4chee-arc-light:5.3.1
+        image: opendicom/dcm4chee-arc-light:5.3.1-secure
         ports:
             - "8080:8080"
             - "9990:9990"
