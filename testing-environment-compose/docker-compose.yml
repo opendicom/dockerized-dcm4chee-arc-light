@@ -12,8 +12,9 @@ slapd:
     DICOM_HOST: localhost
     DICOM_PORT: 11112
     HL7_PORT: 2575
-    SYSLOG_HOST: localhost
+    SYSLOG_HOST: logstash
     SYSLOG_PORT: 8514
+    SYSLOG_PROTOCOL: UDP
     STORAGE_DIR: /storage/fs1  # dicom storage dir
   volumes:
     - ./ldap:/var/lib/ldap
@@ -34,7 +35,7 @@ mariadb:
     - /etc/localtime:/etc/localtime
 
 dcm4chee-arc:
-  image: opendicom/dcm4chee-arc-light:5.3.1
+  image: opendicom/dcm4chee-arc-light:5.3.1-logstash
   ports:
     - "8080:8080"
     - "9990:9990"
@@ -42,14 +43,42 @@ dcm4chee-arc:
     - "2575:2575"
   env_file: docker-compose.env
   environment:
+    SYSLOG_HOST: logstash
+    SYSLOG_PORT: 8514
+    SYSLOG_PROTOCOL: UDP
     WILDFLY_CHOWN: /opt/wildfly/standalone /storage
-    WILDFLY_WAIT_FOR: ldap:389 db:3306
+    WILDFLY_WAIT_FOR: ldap:389 db:3306 logstash:8514
     JAVA_OPTS: -server -Xms64m -Xmx1024m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true
   links:
     - slapd:ldap
     - mariadb:db
+    - logstash:logstash
   volumes:
     - ./storage:/storage
     - ./wildfly:/opt/wildfly/standalone
     - /etc/timezone:/etc/timezone
     - /etc/localtime:/etc/localtime
+
+logstash:
+  image: dcm4che/logstash-dcm4chee:5.4.0
+  ports:
+    - "12201:12201/udp"
+    - "8514:8514"
+  links:
+    - elasticsearch:elasticsearch
+  volumes:
+  - /etc/timezone:/etc/timezone
+  - /etc/localtime:/etc/localtime
+
+elasticsearch:
+    image: elasticsearch:2.3
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+kibana:
+  image: kibana:4.5
+  ports:
+    - "5601:5601"
+  links:
+    - elasticsearch:elasticsearch
