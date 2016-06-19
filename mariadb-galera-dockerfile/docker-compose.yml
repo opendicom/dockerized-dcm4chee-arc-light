@@ -1,0 +1,10 @@
+# build and test image on its own
+
+version: '2'
+services:
+    test_mariadb_image:
+        build: .
+        image: opendicom/mariadb-galera:10.0
+        environment:
+            MYSQL_ROOT_PASSWORD: secure
+            MYSQL_DATABASE: awesome
