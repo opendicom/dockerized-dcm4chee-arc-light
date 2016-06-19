@@ -1,8 +1,7 @@
 *.iml
 .vagrant/
-testing-environment-compose/dbdata
-testing-environment-compose/ldap
-testing-environment-compose/slapd.d
-testing-environment-compose/storage
-testing-environment-compose/wildfly
-
+pacs-environment-compose/dbdata
+pacs-environment-compose/ldap
+pacs-environment-compose/slapd.d
+pacs-environment-compose/storage
+pacs-environment-compose/wildfly

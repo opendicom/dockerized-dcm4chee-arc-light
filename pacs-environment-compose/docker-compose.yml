@@ -1,0 +1,57 @@
+# this file provides a full PACS environment
+
+version: '2'
+services:
+    slapd:
+        image: dcm4che/slapd-dcm4chee:5.3.1
+        ports:
+            - "389:389"
+        env_file: docker-compose.env
+        environment:
+            AE_TITLE: DCM4CHEE
+            DICOM_HOST: localhost
+            DICOM_PORT: 11112
+            HL7_PORT: 2575
+            SYSLOG_HOST: localhost
+            SYSLOG_PORT: 8514
+            STORAGE_DIR: /storage/fs1  # dicom storage dir
+        volumes:
+            - ./ldap:/var/lib/ldap
+            - ./slapd.d:/etc/ldap/slapd.d
+            - /etc/timezone:/etc/timezone
+            - /etc/localtime:/etc/localtime
+
+    mariadb-galera:
+        build: ../mariadb-galera-dockerfile
+        image: opendicom/mariadb-galera:10.0
+        ports:
+            - "3306:3306"
+        env_file: docker-compose.env
+        environment:
+            MYSQL_ROOT_PASSWORD: rootpassword
+        volumes:
+            - ./dbdata:/var/lib/mysql
+            - /etc/timezone:/etc/timezone
+            - /etc/localtime:/etc/localtime
+
+    dcm4chee-arc:
+        build: ../dcm4chee-dockerfile
+        image: opendicom/dcm4chee-arc-light:5.3.1
+        ports:
+            - "8080:8080"
+            - "9990:9990"
+            - "11112:11112"
+            - "2575:2575"
+        env_file: docker-compose.env
+        environment:
+            WILDFLY_CHOWN: /opt/wildfly/standalone /storage
+            WILDFLY_WAIT_FOR: ldap:389 db:3306
+            JAVA_OPTS: -server -Xms64m -Xmx1024m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true
+        links:
+            - slapd:ldap
+            - mariadb-galera:db
+        volumes:
+            - ./storage:/storage
+            - ./wildfly:/opt/wildfly/standalone
+            - /etc/timezone:/etc/timezone
+            - /etc/localtime:/etc/localtime

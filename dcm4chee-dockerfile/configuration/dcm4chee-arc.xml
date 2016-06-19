@@ -35,7 +35,7 @@
     </extensions>
 
     <system-properties>
-        <property name="dcm4chee-arc.DeviceName" value="${env.LDAP_ENV_DEVICE_NAME}"/>
+        <property name="dcm4chee-arc.DeviceName" value="${env.DEVICE_NAME}"/>
     </system-properties>
 
     <management>
