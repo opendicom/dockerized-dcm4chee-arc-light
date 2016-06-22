@@ -1,10 +1,74 @@
 # build and test image on its own
 
 version: '2'
+
+networks:
+    local_network:
+        driver: bridge
+        ipam:
+            config:
+            - subnet: 172.16.25.0/24
+              gateway: 172.16.25.1
+
 services:
-    test_mariadb_image:
+    db_node_one:
         build: .
-        image: opendicom/mariadb-galera:10.0
+        image: opendicom/mariadb-galera:10.1.14
+        container_name: db_node_one
+        command: ["mysqld", "--wsrep-new-cluster"]
+        networks:
+            local_network:
+                ipv4_address: 172.16.25.10
         environment:
             MYSQL_ROOT_PASSWORD: secure
             MYSQL_DATABASE: awesome
+            MYSQL_USER: replication
+            MYSQL_PASSWORD: replication
+            WSREP_CLUSTER_NAME: cluster-pacs
+            WSREP_CLUSTER_ADDRESS: gcomm://172.16.25.10,172.16.25.20,172.16.25.30
+            WSREP_NODE_NAME: db_node_one
+            WSREP_NODE_ADDRESS: 172.16.25.10
+            REPLICATION_USER: replication
+            REPLICATION_PASSWORD: password
+
+    db_node_two:
+        build: .
+        image: opendicom/mariadb-galera:10.1.14
+        container_name: db_node_two
+        depends_on:
+            - db_node_one
+        networks:
+            local_network:
+                ipv4_address: 172.16.25.20
+        environment:
+            MYSQL_ROOT_PASSWORD: secure
+            MYSQL_DATABASE: awesome
+            MYSQL_USER: replication
+            MYSQL_PASSWORD: replication
+            WSREP_CLUSTER_NAME: cluster-pacs
+            WSREP_CLUSTER_ADDRESS: gcomm://172.16.25.10,172.16.25.20,172.16.25.30
+            WSREP_NODE_NAME: db_node_two
+            WSREP_NODE_ADDRESS: 172.16.25.20
+            REPLICATION_USER: replication
+            REPLICATION_PASSWORD: password
+
+    db_node_three:
+        build: .
+        image: opendicom/mariadb-galera:10.1.14
+        container_name: db_node_three
+        depends_on:
+            - db_node_one
+        networks:
+            local_network:
+                ipv4_address: 172.16.25.30
+        environment:
+            MYSQL_ROOT_PASSWORD: secure
+            MYSQL_DATABASE: awesome
+            MYSQL_USER: replication
+            MYSQL_PASSWORD: replication
+            WSREP_CLUSTER_NAME: cluster-pacs
+            WSREP_CLUSTER_ADDRESS: gcomm://172.16.25.10,172.16.25.20,172.16.25.30
+            WSREP_NODE_NAME: db_node_three
+            WSREP_NODE_ADDRESS: 172.16.25.30
+            REPLICATION_USER: replication
+            REPLICATION_PASSWORD: password
