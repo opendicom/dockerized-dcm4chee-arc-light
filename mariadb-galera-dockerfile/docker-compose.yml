@@ -22,8 +22,7 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: secure
             MYSQL_DATABASE: awesome
-            MYSQL_USER: replication
-            MYSQL_PASSWORD: replication
+            WSREP_ON: 'on'  # set to null to disable
             WSREP_CLUSTER_NAME: cluster-pacs
             WSREP_CLUSTER_ADDRESS: gcomm://172.16.25.10,172.16.25.20,172.16.25.30
             WSREP_NODE_NAME: db_node_one
@@ -43,8 +42,7 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: secure
             MYSQL_DATABASE: awesome
-            MYSQL_USER: replication
-            MYSQL_PASSWORD: replication
+            WSREP_ON: 'on'  # set to null to disable
             WSREP_CLUSTER_NAME: cluster-pacs
             WSREP_CLUSTER_ADDRESS: gcomm://172.16.25.10,172.16.25.20,172.16.25.30
             WSREP_NODE_NAME: db_node_two
@@ -64,8 +62,7 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: secure
             MYSQL_DATABASE: awesome
-            MYSQL_USER: replication
-            MYSQL_PASSWORD: replication
+            WSREP_ON: 'on'  # set to null to disable
             WSREP_CLUSTER_NAME: cluster-pacs
             WSREP_CLUSTER_ADDRESS: gcomm://172.16.25.10,172.16.25.20,172.16.25.30
             WSREP_NODE_NAME: db_node_three
