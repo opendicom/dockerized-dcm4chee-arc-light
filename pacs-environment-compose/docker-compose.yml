@@ -3,7 +3,6 @@
 version: '2'
 services:
     slapd:
-        build: ../slapd-dockerfile
         image: opendicom/slapd-for-dcm4chee:5.3.1
         ports:
             - "389:389"
@@ -24,8 +23,7 @@ services:
             - /etc/localtime:/etc/localtime
 
     mariadb-galera:
-        build: ../mariadb-dockerfile
-        image: opendicom/mariadb-for-dcm4chee:10.1.14
+        image: opendicom/mariadb-for-dcm4chee:5.3.1
         ports:
             - "3306:3306"
         env_file: docker-compose.env
@@ -38,7 +36,6 @@ services:
             - /etc/localtime:/etc/localtime
 
     dcm4chee-arc:
-        build: ../dcm4chee-dockerfile
         image: opendicom/dcm4chee-arc-light:5.3.1
         ports:
             - "8080:8080"
