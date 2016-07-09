@@ -1,0 +1,51 @@
+#
+# Study List Tag
+#
+dn: dcmEntity=Study,dicomDeviceName=dcm4chee-arc,cn=Devices,cn=DICOM Configuration,dc=dcm4che,dc=org
+changetype: modify
+add: dcmTag
+dcmTag: 00080080
+
+dn: dcmEntity=Study,dicomDeviceName=dcm4chee-arc,cn=Devices,cn=DICOM Configuration,dc=dcm4che,dc=org
+changetype: modify
+add: dcmTag
+dcmTag: 00100050
+
+dn: dcmEntity=Study,dicomDeviceName=dcm4chee-arc,cn=Devices,cn=DICOM Configuration,dc=dcm4che,dc=org
+changetype: modify
+add: dcmTag
+dcmTag: 00081060
+
+#
+# Study Custom Attributes
+#
+dn: dcmEntity=Study,dicomDeviceName=dcm4chee-arc,cn=Devices,cn=DICOM Configuration,dc=dcm4che,dc=org
+changetype: modify
+add: dcmCustomAttribute1
+dcmCustomAttribute1: DicomAttribute[@tag="00080080"]/Value[@number="1"]
+
+dn: dcmEntity=Study,dicomDeviceName=dcm4chee-arc,cn=Devices,cn=DICOM Configuration,dc=dcm4che,dc=org
+changetype: modify
+add: dcmCustomAttribute2
+dcmCustomAttribute2: DicomAttribute[@tag="00100050"]/Item[@number="1"]/DicomAttribute[@tag="00080100"]/Value[@number="1"]
+
+dn: dcmEntity=Study,dicomDeviceName=dcm4chee-arc,cn=Devices,cn=DICOM Configuration,dc=dcm4che,dc=org
+changetype: modify
+add: dcmCustomAttribute3
+dcmCustomAttribute3: DicomAttribute[@tag="00081060"]/PersonName[@number="1"]
+
+#
+# Instance List Tag
+#
+dn: dcmEntity=Instance,dicomDeviceName=dcm4chee-arc,cn=Devices,cn=DICOM Configuration,dc=dcm4che,dc=org
+changetype: modify
+add: dcmTag
+dcmTag: 0040E008
+
+#
+# Instance Custom Attributes
+#
+dn: dcmEntity=Instance,dicomDeviceName=dcm4chee-arc,cn=Devices,cn=DICOM Configuration,dc=dcm4che,dc=org
+changetype: modify
+add: dcmCustomAttribute1
+dcmCustomAttribute1: DicomAttribute[@tag="0040E008"]/Item[@number="1"]/DicomAttribute[@tag="00080100"]/Value[@number="1"]

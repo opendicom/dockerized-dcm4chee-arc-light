@@ -3,7 +3,8 @@
 version: '2'
 services:
     slapd:
-        image: dcm4che/slapd-dcm4chee:5.3.1
+        build: ../slapd-dockerfile
+        image: opendicom/slapd-for-dcm4chee:5.3.1
         ports:
             - "389:389"
         env_file: docker-compose.env
@@ -18,6 +19,7 @@ services:
         volumes:
             - ./ldap:/var/lib/ldap
             - ./slapd.d:/etc/ldap/slapd.d
+            # same time and date for all containers
             - /etc/timezone:/etc/timezone
             - /etc/localtime:/etc/localtime
 
@@ -31,6 +33,7 @@ services:
             MYSQL_ROOT_PASSWORD: rootpassword
         volumes:
             - ./dbdata:/var/lib/mysql
+            # same time and date for all containers
             - /etc/timezone:/etc/timezone
             - /etc/localtime:/etc/localtime
 
@@ -53,5 +56,6 @@ services:
         volumes:
             - ./storage:/storage
             - ./wildfly:/opt/wildfly/standalone
+            # same time and date for all containers
             - /etc/timezone:/etc/timezone
             - /etc/localtime:/etc/localtime
