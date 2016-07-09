@@ -15,6 +15,9 @@ services:
             SYSLOG_HOST: localhost
             SYSLOG_PORT: 8514
             STORAGE_DIR: /storage/fs1  # dicom storage dir
+        volumes:
+            - ./ldap:/var/lib/ldap
+            - ./slapd.d:/etc/ldap/slapd.d
 
     mariadb-galera:
         image: opendicom/mariadb-for-dcm4chee:5.3.1
@@ -33,6 +36,8 @@ services:
             WSREP_NODE_ADDRESS: 192.168.3.20
             REPLICATION_USER: replication
             REPLICATION_PASSWORD: password
+        volumes:
+            - ./dbdata:/var/lib/mysql
 
     dcm4chee-arc:
         image: opendicom/dcm4chee-arc-light:5.3.1
@@ -49,3 +54,6 @@ services:
         links:
             - slapd:ldap
             - mariadb-galera:db
+        volumes:
+            - ./storage:/storage
+            - ./wildfly:/opt/wildfly/standalone
