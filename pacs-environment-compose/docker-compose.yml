@@ -22,8 +22,8 @@ services:
             - /etc/localtime:/etc/localtime
 
     mariadb-galera:
-        build: ../mariadb-galera-dockerfile
-        image: opendicom/mariadb-galera:10.0
+        build: ../mariadb-dockerfile
+        image: opendicom/mariadb-for-dcm4chee:10.1.14
         ports:
             - "3306:3306"
         env_file: docker-compose.env
