@@ -1,0 +1,51 @@
+# this file provides a full PACS environment
+
+version: '2'
+services:
+    slapd:
+        image: opendicom/slapd-for-dcm4chee:5.3.1
+        ports:
+            - "389:389"
+        env_file: docker-compose.env
+        environment:
+            AE_TITLE: DCM4CHEE
+            DICOM_HOST: localhost
+            DICOM_PORT: 11112
+            HL7_PORT: 2575
+            SYSLOG_HOST: localhost
+            SYSLOG_PORT: 8514
+            STORAGE_DIR: /storage/fs1  # dicom storage dir
+
+    mariadb-galera:
+        image: opendicom/mariadb-for-dcm4chee:5.3.1
+        ports:
+            - "3306:3306"
+            - "4567:4567"
+            - "4568:4568"
+            - "4444:4444"
+        env_file: docker-compose.env
+        environment:
+            MYSQL_ROOT_PASSWORD: rootpassword
+            WSREP_ON: 'on'  # set to null to disable
+            WSREP_CLUSTER_NAME: cluster_pacs
+            WSREP_CLUSTER_ADDRESS: gcomm://192.168.3.10,192.168.3.20
+            WSREP_NODE_NAME: pacs_node_two
+            WSREP_NODE_ADDRESS: 192.168.3.20
+            REPLICATION_USER: replication
+            REPLICATION_PASSWORD: password
+
+    dcm4chee-arc:
+        image: opendicom/dcm4chee-arc-light:5.3.1
+        ports:
+            - "8080:8080"
+            - "9990:9990"
+            - "11112:11112"
+            - "2575:2575"
+        env_file: docker-compose.env
+        environment:
+            WILDFLY_CHOWN: /opt/wildfly/standalone /storage
+            WILDFLY_WAIT_FOR: ldap:389 db:3306
+            JAVA_OPTS: -server -Xms64m -Xmx1024m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true
+        links:
+            - slapd:ldap
+            - mariadb-galera:db

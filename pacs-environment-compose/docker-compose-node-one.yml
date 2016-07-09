@@ -26,9 +26,20 @@ services:
         image: opendicom/mariadb-for-dcm4chee:5.3.1
         ports:
             - "3306:3306"
+            - "4567:4567"
+            - "4568:4568"
+            - "4444:4444"
+        command: ["mysqld", "--wsrep-new-cluster"]  # only on first node
         env_file: docker-compose.env
         environment:
             MYSQL_ROOT_PASSWORD: rootpassword
+            WSREP_ON: 'on'  # set to null to disable
+            WSREP_CLUSTER_NAME: cluster_pacs
+            WSREP_CLUSTER_ADDRESS: gcomm://192.168.3.10,192.168.3.20
+            WSREP_NODE_NAME: pacs_node_one
+            WSREP_NODE_ADDRESS: 192.168.3.10
+            REPLICATION_USER: replication
+            REPLICATION_PASSWORD: password
         volumes:
             - ./dbdata:/var/lib/mysql
             # same time and date for all containers
