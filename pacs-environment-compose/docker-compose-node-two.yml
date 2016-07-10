@@ -3,7 +3,7 @@
 version: '2'
 services:
     slapd:
-        image: opendicom/slapd-for-dcm4chee:5.3.1
+        image: opendicom/slapd-for-dcm4chee:5.5.1
         ports:
             - "389:389"
         env_file: docker-compose.env
@@ -20,7 +20,7 @@ services:
             - ./slapd.d:/etc/ldap/slapd.d
 
     mariadb-galera:
-        image: opendicom/mariadb-for-dcm4chee:5.3.1
+        image: opendicom/mariadb-for-dcm4chee:5.5.1
         ports:
             - "3306:3306"
             - "4567:4567"
@@ -40,7 +40,7 @@ services:
             - ./dbdata:/var/lib/mysql
 
     dcm4chee-arc:
-        image: opendicom/dcm4chee-arc-light:5.3.1
+        image: opendicom/dcm4chee-arc-light:5.5.1
         ports:
             - "8080:8080"
             - "9990:9990"

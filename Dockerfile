@@ -1,6 +1,6 @@
 FROM dcm4che/wildfly:10.0.0.Final
 
-ENV DCM4CHEE_ARC_VERSION="5.3.1"
+ENV DCM4CHEE_ARC_VERSION="5.5.1"
 ENV DCM4CHE_VERSION="dcm4chee-arc-$DCM4CHEE_ARC_VERSION-mysql"
 ENV MYSQL_CONNECTOR="mysql-connector-java-5.1.36"
 
