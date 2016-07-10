@@ -20,7 +20,7 @@ services:
             - ./slapd.d:/etc/ldap/slapd.d
 
     mariadb-galera:
-        image: opendicom/mariadb-for-dcm4chee:5.5.1
+        image: opendicom/mariadb-for-dcm4chee:5.5.1-secure
         ports:
             - "3306:3306"
             - "4567:4567"

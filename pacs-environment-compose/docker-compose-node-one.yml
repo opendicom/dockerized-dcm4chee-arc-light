@@ -47,7 +47,7 @@ services:
             - /etc/localtime:/etc/localtime
 
     dcm4chee-arc:
-        image: opendicom/dcm4chee-arc-light:5.5.1
+        image: opendicom/dcm4chee-arc-light:5.5.1-secure
         ports:
             - "8080:8080"
             - "9990:9990"
