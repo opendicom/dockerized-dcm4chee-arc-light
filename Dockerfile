@@ -5,7 +5,7 @@ ENV DCM4CHE_VERSION="dcm4chee-arc-$DCM4CHEE_ARC_VERSION-mysql"
 ENV MYSQL_CONNECTOR="mysql-connector-java-5.1.36"
 
 # download binary distribution
-RUN curl -O -L https://sourceforge.net/projects/dcm4che/files/dcm4chee-arc-light5/$DCM4CHEE_ARC_VERSION/$DCM4CHE_VERSION.zip \
+RUN curl -O -L https://github.com/opendicom/dcm4chee-arc-light-releases/releases/download/$DCM4CHEE_ARC_VERSION/$DCM4CHE_VERSION.zip \
     && unzip $DCM4CHE_VERSION.zip \
     && cd $DCM4CHE_VERSION \
     && for module in jboss-modules/*; do unzip $module -d $JBOSS_HOME; done \
