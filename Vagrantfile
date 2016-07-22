@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
 
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "centos/7"
   config.vm.hostname = "docker-host"
   config.vm.box_check_update = false
   config.ssh.insert_key = false
@@ -21,10 +21,12 @@ Vagrant.configure(2) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-  # config.vm.network :forwarded_port, guest: 8080,  host: 8080
   # config.vm.network :forwarded_port, guest: 389,   host: 389
   # config.vm.network :forwarded_port, guest: 3306,  host: 3306
+  # config.vm.network :forwarded_port, guest: 4567,  host: 4567
+  # config.vm.network :forwarded_port, guest: 4568,  host: 4568
+  # config.vm.network :forwarded_port, guest: 4444,  host: 4444
+  # config.vm.network :forwarded_port, guest: 8080,  host: 8080
   # config.vm.network :forwarded_port, guest: 9990,  host: 9990
   # config.vm.network :forwarded_port, guest: 11112, host: 11112
   # config.vm.network :forwarded_port, guest: 2575,  host: 2575
@@ -36,7 +38,7 @@ Vagrant.configure(2) do |config|
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
-  config.vm.network "public_network"
+  config.vm.network "public_network", ip: "192.168.3.30"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
